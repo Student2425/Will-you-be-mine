@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You 🌙</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        :root {
+            --blush: #FDEEEB;
+            --cream: #FDFBF7;
+            --lavender: #E6E6FA;
+            --beige: #F5F5DC;
+            --text-dark: #4A403A;
+            --text-light: #7A6B63;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--cream), var(--blush), var(--lavender));
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+        }
+
+        p {
+            font-weight: 300;
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+
+        /* Floating Particles (Bokeh) */
+        #particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bokeh {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            animation: float 15s infinite ease-in-out alternate;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) scale(1); opacity: 0.3; }
+            100% { transform: translateY(-100px) scale(1.2); opacity: 0.7; }
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        /* Hero Section */
+        #hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+        }
+
+        #hero p {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            font-style: italic;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 50px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 40px rgba(255, 192, 203, 0.4);
+            transform: translateY(-3px);
+        }
+
+        /* Confession & Special Message Sections */
+        .text-reveal {
+            font-size: 2.2rem;
+            max-width: 800px;
+            line-height: 1.6;
+        }
+
+        /* Why You Section (Glassmorphism) */
+        .cards-container {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1000px;
+            margin-top: 2rem;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            width: 300px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.07);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 45px rgba(253, 238, 235, 0.8);
+        }
+
+        .glass-card p {
+            font-size: 1.2rem;
+            font-family: 'Playfair Display', serif;
+            color: var(--text-dark);
+        }
+
+        /* Final Proposal Section */
+        .proposal-container {
+            position: relative;
+        }
+
+        .buttons-group {
+            margin-top: 3rem;
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #btn-yes {
+            background: var(--text-dark);
+            color: var(--cream);
+        }
+
+        #btn-yes:hover {
+            background: #2a2320;
+            box-shadow: 0 10px 40px rgba(74, 64, 58, 0.4);
+        }
+
+        #btn-no {
+            position: relative;
+            transition: left 0.3s ease, top 0.3s ease;
+        }
+
+        footer {
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            z-index: 1;
+            position: relative;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            #hero h1 { font-size: 2.8rem; }
+            .text-reveal { font-size: 1.5rem; }
+            .cards-container { flex-direction: column; }
+            .glass-card { width: 100%; max-width: 350px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="particles"></div>
+
+    <audio id="bgMusic" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-493.mp3" type="audio/mpeg">
+    </audio>
+
+    <section id="hero" class="gsap-hero">
+        <h1>Hey you… 🌙</h1>
+        <h2>I made this just for you.</h2>
+        <br>
+        <p>Because some feelings deserve more than just messages.</p>
+        <button class="btn" id="start-btn">Click here ❤️</button>
+    </section>
+
+    <section id="confession">
+        <h2 class="text-reveal gsap-fade">
+            "I don’t know when it started… <br>
+            but somewhere between our conversations, <br>
+            you became someone special to me."
+        </h2>
+    </section>
+
+    <section id="why-you">
+        <h2 class="gsap-fade" style="font-size: 2.5rem; margin-bottom: 2rem;">Why You?</h2>
+        <div class="cards-container">
+            <div class="glass-card gsap-card">
+                <p>Your smile feels like peace ✨</p>
+            </div>
+            <div class="glass-card gsap-card">
+                <p>Talking to you feels like home 🏡</p>
+            </div>
+            <div class="glass-card gsap-card">
+                <p>You make ordinary moments special 💫</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="special-message">
+        <h2 class="text-reveal gsap-fade">
+            "You’re not just someone I like… <br>
+            you’re someone I genuinely care about, <br>
+            someone I want to protect, understand, and grow with."
+        </h2>
+    </section>
+
+    <section id="proposal">
+        <div class="proposal-container gsap-fade">
+            <h1 style="font-size: 3.5rem;">So…</h1>
+            <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">will you be mine? 💖</h1>
+            
+            <div class="buttons-group">
+                <button class="btn" id="btn-yes">Yes 💕</button>
+                <button class="btn" id="btn-no">Think Again 😏</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Made with real feelings, not just code.</p>
+    </footer>
+
+    <script>
+        // 1. Generate Floating Bokeh Particles
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 25;
+
+        for (let i = 0; i < particleCount; i++) {
+            let dot = document.createElement('div');
+            dot.classList.add('bokeh');
+            
+            // Random sizes and positions
+            let size = Math.random() * 80 + 20; 
+            dot.style.width = `${size}px`;
+            dot.style.height = `${size}px`;
+            dot.style.left = `${Math.random() * 100}vw`;
+            dot.style.top = `${Math.random() * 100}vh`;
+            
+            // Random animation duration and delay
+            dot.style.animationDuration = `${Math.random() * 10 + 10}s`;
+            dot.style.animationDelay = `${Math.random() * 5}s`;
+            
+            particlesContainer.appendChild(dot);
+        }
+
+        // 2. Play BGM and smooth scroll to confession on first click
+        const startBtn = document.getElementById('start-btn');
+        const bgMusic = document.getElementById('bgMusic');
+        
+        startBtn.addEventListener('click', () => {
+            bgMusic.volume = 0.4;
+            bgMusic.play().catch(e => console.log("Audio autoplay prevented by browser"));
+            document.getElementById('confession').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // 3. GSAP Scroll Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero fade in on load
+        gsap.from(".gsap-hero h1", { opacity: 0, y: 30, duration: 1.5, ease: "power3.out" });
+        gsap.from(".gsap-hero h2", { opacity: 0, y: 30, duration: 1.5, delay: 0.5, ease: "power3.out" });
+        gsap.from(".gsap-hero p", { opacity: 0, y: 30, duration: 1.5, delay: 1, ease: "power3.out" });
+        gsap.from(".gsap-hero button", { opacity: 0, scale: 0.8, duration: 1, delay: 1.5, ease: "elastic.out(1, 0.5)" });
+
+        // Fade in elements on scroll
+        gsap.utils.toArray('.gsap-fade').forEach(element => {
+            gsap.from(element, {
+                scrollTrigger: {
+                    trigger: element,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                },
+                opacity: 0,
+                y: 50,
+                duration: 1.5,
+                ease: "power2.out"
+            });
+        });
+
+        // Stagger glass cards
+        gsap.from('.gsap-card', {
+            scrollTrigger: {
+                trigger: "#why-you",
+                start: "top 70%"
+            },
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            stagger: 0.3,
+            ease: "power2.out"
+        });
+
+        // 4. Playful "Think Again" Button Logic
+        const noBtn = document.getElementById('btn-no');
+        const yesBtn = document.getElementById('btn-yes');
+
+        const moveButton = () => {
+            // Get viewport dimensions
+            const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+            
+            // Generate random coordinates
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+            
+            // Apply new position
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
+        };
+
+        // Trigger on hover (desktop) and touch (mobile)
+        noBtn.addEventListener('mouseover', moveButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Prevent accidental clicks while touching
+            moveButton();
+        });
+
+        // 5. Success Action for "Yes" Button
+        yesBtn.addEventListener('click', () => {
+            // Custom sweet success state
+            document.querySelector('.proposal-container').innerHTML = `
+                <h1 style="font-size: 4rem; color: #E84A5F; text-shadow: 0 0 20px rgba(232, 74, 95, 0.4);">
+                    I knew it! ❤️
+                </h1>
+                <p style="font-size: 1.5rem; margin-top: 1rem; color: var(--text-dark);">
+                    You just made me the happiest person.
+                </p>
+            `;
+            // Trigger a quick confetti or spark effect (optional logic placeholder)
+        });
+
+    </script>
+</body>
+</html>
